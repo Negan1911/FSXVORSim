@@ -1,0 +1,73 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FSXVORSim"
+        xmlns:SimulatorData="clr-namespace:FSXVORSim.SimulatorData" x:Class="FSXVORSim.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="520" Width="1000" ResizeMode="NoResize" x:Name="mainwindow">
+    <StackPanel Margin="5,5,5,5">
+        <Label Content="Running box"/>
+        <GroupBox>
+            <GroupBox.Header>
+                <Label Content="Instrumentation"/>
+            </GroupBox.Header>
+            <UniformGrid Rows="4" Columns="2">
+                <StackPanel Margin="0,0,2,0">
+                    <Label Content="VOR Freq."/>
+                    <TextBox IsEnabled="False" x:Name="vorFreq"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="2,0,0,0">
+                    <Label Content="VOR Signal"/>
+                    <TextBox IsEnabled="False" x:Name="vorSignal" />
+                </StackPanel>
+                <StackPanel Margin="0,0,2,0">
+                    <Label Content="VOR Radial"/>
+                    <TextBox IsEnabled="False" x:Name="vorRadial" />
+                </StackPanel>
+                <StackPanel Margin="2,0,0,0">
+                    <Label Content="VOR OBS"/>
+                    <TextBox IsEnabled="False" x:Name="vorOBS"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,2,0">
+                    <Label Content="VOR Flag"/>
+                    <TextBox IsEnabled="False" x:Name="vorFlag"/>
+                </StackPanel>
+                <StackPanel Margin="2,0,0,0">
+                    <Label Content="Actual Heading"/>
+                    <TextBox IsEnabled="False" x:Name="magneticHeading"/>
+                </StackPanel>
+                <StackPanel Margin="0,0,2,0">
+                    <Label Content="DME Distance"/>
+                    <TextBox IsEnabled="False" x:Name="dmeDistance"/>
+                </StackPanel>
+                <StackPanel Margin="2,0,0,0">
+                    <Label Content="DME Speed"/>
+                    <TextBox IsEnabled="False" x:Name="dmeSpeed"/>
+                </StackPanel>
+            </UniformGrid>
+        </GroupBox>
+        <GroupBox>
+            <GroupBox.Header>
+                <Label Content="Instruction / Actual"/>
+            </GroupBox.Header>
+            <UniformGrid Rows="2" Columns="1">
+                <StackPanel>
+                    <Label Content="ATC Instruction"/>
+                    <TextBox IsEnabled="False"/>
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Actual Status"/>
+                    <TextBox IsEnabled="False"/>
+                </StackPanel>
+            </UniformGrid>
+        </GroupBox>
+        <GroupBox>
+            <GroupBox.Header>
+                <Label Content="Debug log"/>
+            </GroupBox.Header>
+            <ListBox x:Name="debugBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="314"/>
+        </GroupBox>
+    </StackPanel>
+</Window>
