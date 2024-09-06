@@ -13,6 +13,6 @@ namespace FSXVORSim.SimulatorData
     {
         public SimulatorStateDataStatus Status { get; set; }
 
-        public String error { get; set; }
+        public String Error { get; set; }
     }
 }

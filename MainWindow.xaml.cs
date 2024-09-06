@@ -11,11 +11,12 @@ namespace FSXVORSim
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IntPtr handle;
         private DebugCtlUIBox debugCtl;
         private FlightSimulatorBridge.FlightSimulatorBridge simulatorBridge;
         private HwndSource _hwndSource;
-        internal SimulatorStateData SimulatorStateData { get; set; }
-        internal SimulatorAircraftData SimulatorAircraftData { get; set; }
+        
+        internal AppState.AppState appState { get; set; } = AppState.AppState.FromEmptyAppState();
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
@@ -26,35 +27,43 @@ namespace FSXVORSim
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var hwnd = new WindowInteropHelper(this).Handle;
-            _hwndSource = HwndSource.FromHwnd(hwnd);
+            handle = new WindowInteropHelper(this).Handle;
+            _hwndSource = HwndSource.FromHwnd(handle);
             _hwndSource.AddHook(WndProc);
 
             debugCtl = new DebugCtlUIBox(debugBox);
-            simulatorBridge = new FlightSimulatorBridge.FlightSimulatorBridge(debugCtl, hwnd);
-            simulatorBridge.StatusUpdate += SimulatorBridge_StatusUpdate;
-            simulatorBridge.AircraftDataUpdate += SimulatorBridge_AircraftDataUpdate;
         }
 
         private void SimulatorBridge_AircraftDataUpdate(object sender, SimulatorAircraftData data)
         {
-            SimulatorAircraftData = data;
-
-            /* Update UI, find a better way to do it */
-            vorFreq.Text = data.VORFreqMhz.ToString();
-            vorSignal.Text = data.VORSignal.ToString();
-            vorRadial.Text = data.VORRadial.ToString();
-            vorOBS.Text = data.VOROmniBearingSelector.ToString();
-            vorFlag.Text = data.VORFlag.ToString();
-            magneticHeading.Text = data.MagneticHeading.ToString();
-            dmeDistance.Text = data.DMEDistance.ToString();
-            dmeSpeed.Text = data.DMESpeed.ToString();
-
+            appState = AppState.AppState.FromStateAndAircraftKeypair(appState.AsSimulatorStateData(), data);
+            updateUI();
         }
 
         private void SimulatorBridge_StatusUpdate(object sender, SimulatorStateData state)
         {
-            SimulatorStateData = state;
+            appState = AppState.AppState.FromStateAndAircraftKeypair(state, appState.AsSimulatorAircraftData());
+            updateUI();
+        }
+
+        private void updateUI()
+        {
+            /* Update UI Buttons */
+            startBtn.IsEnabled = appState.Status != SimulatorStateDataStatus.RUNNING;
+            stopBtn.IsEnabled = appState.Status == SimulatorStateDataStatus.RUNNING;
+
+            /* Update UI Fields */
+            vorFreq.Text = String.Format("{0:0.00} MHz", appState.VORFreqMhz);
+            vorSignal.Text = appState.VORSignal.ToString();
+            vorRadial.Text = Math.Round(appState.VORRadial, 0).ToString();
+            vorOBS.Text = appState.VOROmniBearingSelector.ToString();
+            vorFlag.Text = appState.VORFlag.ToString();
+            magneticHeading.Text = Math.Round(appState.MagneticHeading, 0).ToString();
+            dmeDistance.Text = String.Format("{0:0.0} NM", Math.Round(appState.DMEDistance, 1));
+            dmeSpeed.Text = String.Format("{0:0} Kt", Math.Round(appState.DMESpeed, 0));
+
+            /* TODO: Update UI VOR State */
+            actStatus.Text = appState.VorState.ToString();
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -66,8 +75,25 @@ namespace FSXVORSim
         public MainWindow()
         {
             InitializeComponent();
+
             Loaded += MainWindow_Loaded;
             Closed += MainWindow_Closed;
+            FlightSimulatorBridge.FlightSimulatorBridge.StatusUpdate += SimulatorBridge_StatusUpdate;
+            FlightSimulatorBridge.FlightSimulatorBridge.AircraftDataUpdate += SimulatorBridge_AircraftDataUpdate;
+        }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            simulatorBridge = new FlightSimulatorBridge.FlightSimulatorBridge(debugCtl, handle);
+            updateUI();
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            simulatorBridge?.Dispose();
+            simulatorBridge = null;
+            appState = AppState.AppState.FromEmptyAppState();
+            updateUI();
         }
     }
 }

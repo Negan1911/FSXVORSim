@@ -59,11 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppState\AppState.cs" />
     <Compile Include="DebugCtl\DebugCtlUIBox.cs" />
     <Compile Include="DebugCtl\IDebuggable.cs" />
     <Compile Include="FlightSimulatorBridge\FlightSimulatorBridge.cs" />
-    <Compile Include="SimulatorData\SimulatorAircraftData.cs" />
-    <Compile Include="SimulatorData\SimulatorStateData.cs" />
+    <Compile Include="FlightSimulatorBridge\SimulatorData\SimulatorAircraftData.cs" />
+    <Compile Include="FlightSimulatorBridge\SimulatorData\SimulatorStateData.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

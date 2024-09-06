@@ -31,9 +31,9 @@ namespace FSXVORSim.FlightSimulatorBridge
 
         public delegate void AircraftDataUpdateHandler(object sender, SimulatorAircraftData simulatorAircraftData);
 
-        public event StatusUpdateHandler StatusUpdate;
+        public static event StatusUpdateHandler StatusUpdate;
 
-        public event AircraftDataUpdateHandler AircraftDataUpdate;
+        public static event AircraftDataUpdateHandler AircraftDataUpdate;
 
         public FlightSimulatorBridge(DebugCtl.IDebuggable debuggable, IntPtr hWnd)
         {
@@ -56,8 +56,8 @@ namespace FSXVORSim.FlightSimulatorBridge
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV ACTIVE FREQUENCY:1", "MHz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV RADIAL:1", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV OBS:1", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV DME:1", "nm", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV DMESPEED:1", "nm", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV DME:1", "nautical miles", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV DMESPEED:1", "knots", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "PLANE HEADING DEGREES MAGNETIC", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
                 /** Register the struct */
@@ -70,7 +70,7 @@ namespace FSXVORSim.FlightSimulatorBridge
             catch (COMException ex)
             {
                 debuggable.Debug("Unable to connect to FSX: " + ex.Message);
-                StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.ERRORED, error = ex.Message });
+                StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.ERRORED, Error = ex.Message });
             }
         }
 
@@ -98,7 +98,7 @@ namespace FSXVORSim.FlightSimulatorBridge
                 catch (COMException ex)
                 {
                     debuggable.Debug("Error receiving message from FSX: " + ex.Message);
-                    StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.ERRORED, error = ex.Message });
+                    StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.ERRORED, Error = ex.Message });
                 }
                 return true;
             }
@@ -129,7 +129,7 @@ namespace FSXVORSim.FlightSimulatorBridge
         void Simconnect_OnRecvOpen(SimConnect sender, SIMCONNECT_RECV_OPEN data)
         {
             debuggable.Debug("Connected to FSX");
-            StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.RUNNING, error = null });
+            StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.RUNNING, Error = null });
             loopCancellationTokenSrc = new CancellationTokenSource();
             LoopDataCollection(TimeSpan.FromMilliseconds(1000));
         }
@@ -143,7 +143,7 @@ namespace FSXVORSim.FlightSimulatorBridge
         {
             loopCancellationTokenSrc.Cancel();
             debuggable.Debug("FSX has exited");
-            StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.STOPPED, error = null });
+            StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.STOPPED, Error = null });
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace FSXVORSim.FlightSimulatorBridge
         {
             loopCancellationTokenSrc.Cancel();
             debuggable.Debug("FSX Bridge Exception received: " + data.dwException);
-            StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.ERRORED, error = data.dwException.ToString() });
+            StatusUpdate?.Invoke(this, new SimulatorStateData { Status = SimulatorStateDataStatus.ERRORED, Error = data.dwException.ToString() });
         }
 
         private void Simconnect_OnRecvSimobjectDataBytype(SimConnect sender, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
