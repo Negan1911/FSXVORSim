@@ -3,6 +3,8 @@ using FSXVORSim.SimulatorData;
 using System;
 using System.Windows;
 using System.Windows.Interop;
+using System.Globalization;
+using System.Speech.Synthesis;
 
 namespace FSXVORSim
 {
@@ -16,7 +18,8 @@ namespace FSXVORSim
         private FlightSimulatorBridge.FlightSimulatorBridge simulatorBridge;
         private HwndSource _hwndSource;
         
-        internal AppState.AppState appState { get; set; } = AppState.AppState.FromEmptyAppState();
+        internal AppState.AppState AppState { get; set; } = FSXVORSim.AppState.AppState.FromEmptyAppState();
+        internal AppState.AppStateExcercise AppStateExcercise = new AppState.AppStateExcercise();
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
@@ -36,34 +39,43 @@ namespace FSXVORSim
 
         private void SimulatorBridge_AircraftDataUpdate(object sender, SimulatorAircraftData data)
         {
-            appState = AppState.AppState.FromStateAndAircraftKeypair(appState.AsSimulatorStateData(), data);
+            AppState = FSXVORSim.AppState.AppState.FromStateAndAircraftKeypair(AppState.AsSimulatorStateData(), data, (int)sensitivity.Value);
+
+            if (AppStateExcercise?.Equals(AppState.VorState) ?? false)
+            {
+                //TODO: Speak...
+                AppStateExcercise = new AppState.AppStateExcercise();
+            }
+
             updateUI();
         }
 
         private void SimulatorBridge_StatusUpdate(object sender, SimulatorStateData state)
         {
-            appState = AppState.AppState.FromStateAndAircraftKeypair(state, appState.AsSimulatorAircraftData());
+            AppState = FSXVORSim.AppState.AppState.FromStateAndAircraftKeypair(state, AppState.AsSimulatorAircraftData(), (int)sensitivity.Value);
             updateUI();
         }
 
         private void updateUI()
         {
             /* Update UI Buttons */
-            startBtn.IsEnabled = appState.Status != SimulatorStateDataStatus.RUNNING;
-            stopBtn.IsEnabled = appState.Status == SimulatorStateDataStatus.RUNNING;
+            startBtn.IsEnabled = AppState.Status != SimulatorStateDataStatus.RUNNING;
+            stopBtn.IsEnabled = AppState.Status == SimulatorStateDataStatus.RUNNING;
 
             /* Update UI Fields */
-            vorFreq.Text = String.Format("{0:0.00} MHz", appState.VORFreqMhz);
-            vorSignal.Text = appState.VORSignal.ToString();
-            vorRadial.Text = Math.Round(appState.VORRadial, 0).ToString();
-            vorOBS.Text = appState.VOROmniBearingSelector.ToString();
-            vorFlag.Text = appState.VORFlag.ToString();
-            magneticHeading.Text = Math.Round(appState.MagneticHeading, 0).ToString();
-            dmeDistance.Text = String.Format("{0:0.0} NM", Math.Round(appState.DMEDistance, 1));
-            dmeSpeed.Text = String.Format("{0:0} Kt", Math.Round(appState.DMESpeed, 0));
+            vorFreq.Text = String.Format("{0:0.00} MHz", AppState.VORFreqMhz);
+            vorSignal.Text = AppState.VORSignal.ToString();
+            vorRadial.Text = AppState.VORRadial.ToString();
+            vorOBS.Text = AppState.VOROmniBearingSelector.ToString();
+            vorFlag.Text = AppState.VORFlag.ToString();
+            magneticHeading.Text = AppState.MagneticHeading.ToString();
+            dmeDistance.Text = String.Format("{0:0.0} NM", Math.Round(AppState.DMEDistance, 1));
+            dmeSpeed.Text = String.Format("{0:0} Kt", Math.Round(AppState.DMESpeed, 0));
 
             /* TODO: Update UI VOR State */
-            actStatus.Text = appState.VorState.ToString();
+            atcInstruction.Text = AppStateExcercise.ToString();
+            actStatus.Text = AppState.VorState.ToString();
+            
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -92,8 +104,13 @@ namespace FSXVORSim
         {
             simulatorBridge?.Dispose();
             simulatorBridge = null;
-            appState = AppState.AppState.FromEmptyAppState();
+            AppState = FSXVORSim.AppState.AppState.FromEmptyAppState();
             updateUI();
+        }
+
+        private void Sensitivity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            AppState.Sensitivity = (int)e.NewValue;
         }
     }
 }

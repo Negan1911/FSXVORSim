@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -60,11 +61,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppState\AppState.cs" />
+    <Compile Include="AppState\AppStateExcercise.cs" />
+    <Compile Include="AppState\AppStateVorState.cs" />
     <Compile Include="DebugCtl\DebugCtlUIBox.cs" />
     <Compile Include="DebugCtl\IDebuggable.cs" />
     <Compile Include="FlightSimulatorBridge\FlightSimulatorBridge.cs" />
     <Compile Include="FlightSimulatorBridge\SimulatorData\SimulatorAircraftData.cs" />
     <Compile Include="FlightSimulatorBridge\SimulatorData\SimulatorStateData.cs" />
+    <Compile Include="Resources\Strings-es.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings-es.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -95,6 +108,14 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings-es.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings-es.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

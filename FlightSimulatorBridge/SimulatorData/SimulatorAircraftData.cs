@@ -19,15 +19,15 @@ namespace FSXVORSim.SimulatorData
 
         internal double VORFreqMhz { get; set; }
 
-        internal double VORRadial { get; set; }
+        internal int VORRadial { get; set; }
 
-        internal double VOROmniBearingSelector { get; set; }
+        internal int VOROmniBearingSelector { get; set; }
 
         internal double DMEDistance { get; set; }
 
         internal double DMESpeed { get; set; }
 
-        internal double MagneticHeading { get; set; }
+        internal int MagneticHeading { get; set; }
 
     }
 }

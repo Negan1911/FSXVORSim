@@ -6,13 +6,49 @@
         xmlns:local="clr-namespace:FSXVORSim"
         xmlns:SimulatorData="clr-namespace:FSXVORSim.SimulatorData" x:Class="FSXVORSim.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="580" Width="300" x:Name="mainwindow">
+        Title="MainWindow" Height="670" Width="300" x:Name="mainwindow">
     <StackPanel Margin="5,5,5,5">
         <Label Content="Running box"/>
         <UniformGrid Rows="1" Columns="2">
             <Button Margin="0,0,2,0" x:Name="startBtn" Click="Start_Click">Start</Button>
             <Button Margin="2,0,0,0" x:Name="stopBtn" IsEnabled="False" Click="Stop_Click">Stop</Button>
         </UniformGrid>
+        <GroupBox>
+            <GroupBox.Header>
+                <Label Content="Settings"/>
+            </GroupBox.Header>
+            <StackPanel>
+                <StackPanel>
+                    <CheckBox VerticalAlignment="Center">
+                        <TextBlock Text="ATC Style voice (Ctrl + U to repeat)" VerticalAlignment="Center" />
+                    </CheckBox>
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Heading offset (leniency to completion)"/>
+                    <Grid>
+                        <Label Width="25" HorizontalAlignment="Left">0</Label>
+                        <Slider
+                            x:Name="sensitivity"
+                            Width="Auto"
+                            Height="24"
+                            Margin="25,5,25,0"
+                            Orientation="Horizontal" 
+                            Value="5"
+                            Minimum="0"
+                            Maximum="15" 
+                            SmallChange="1"
+                            LargeChange="1"
+                            IsSnapToTickEnabled="True"
+                            HorizontalAlignment="Stretch"
+                            TickPlacement="BottomRight"
+                            TickFrequency="1"
+                            ValueChanged="Sensitivity_ValueChanged"
+                        />
+                        <Label Width="25" HorizontalAlignment="Right">15</Label>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
         <GroupBox>
             <GroupBox.Header>
                 <Label Content="Instrumentation"/>
@@ -59,7 +95,7 @@
             <UniformGrid Rows="2" Columns="1">
                 <StackPanel>
                     <Label Content="ATC Instruction"/>
-                    <TextBox IsEnabled="False"/>
+                    <TextBox x:Name="atcInstruction" IsEnabled="False"/>
                 </StackPanel>
                 <StackPanel>
                     <Label Content="Actual Status"/>

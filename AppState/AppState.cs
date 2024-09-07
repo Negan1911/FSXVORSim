@@ -1,19 +1,14 @@
 ﻿using FSXVORSim.SimulatorData;
 using System;
 using System.Linq;
-using System.Net.NetworkInformation;
 
 namespace FSXVORSim.AppState
 {
-    enum AppStateVorState
-    {
-        INBOUND,
-        OUTBOUND,
-        CROSSING
-    }
 
     internal class AppState
     {
+        public int Sensitivity { get; set; } = 5;
+
         public SimulatorStateDataStatus Status { get; set; }
 
         public String Error { get; set; }
@@ -24,15 +19,15 @@ namespace FSXVORSim.AppState
 
         internal double VORFreqMhz { get; set; }
 
-        internal double VORRadial { get; set; }
+        internal int VORRadial { get; set; }
 
-        internal double VOROmniBearingSelector { get; set; }
+        internal int VOROmniBearingSelector { get; set; }
 
         internal double DMEDistance { get; set; }
 
         internal double DMESpeed { get; set; }
 
-        internal double MagneticHeading { get; set; }
+        internal int MagneticHeading { get; set; }
 
         internal AppStateVorState VorState { get; set; }
 
@@ -60,7 +55,7 @@ namespace FSXVORSim.AppState
             };
         }
 
-        internal static AppState FromStateAndAircraftKeypair(SimulatorStateData status, SimulatorAircraftData aircraft)
+        internal static AppState FromStateAndAircraftKeypair(SimulatorStateData status, SimulatorAircraftData aircraft, int sensitivity)
         {
             return new AppState
             {
@@ -74,26 +69,16 @@ namespace FSXVORSim.AppState
                 DMEDistance = aircraft.DMEDistance,
                 DMESpeed = aircraft.DMESpeed,
                 MagneticHeading = aircraft.MagneticHeading,
-                VorState = AppState.GetVorState((int)Math.Round(aircraft.MagneticHeading, 0), (int)Math.Round(aircraft.VORRadial, 0))
+                Sensitivity = sensitivity,
+                VorState = AppStateVorState.FromHeadingAndRadial(
+                    aircraft.MagneticHeading,
+                    aircraft.VORRadial,
+                    sensitivity
+                )
             };
         }
 
-        private static AppStateVorState GetVorState(int heading, int radial)
-        {
-            var sensitivity = 5;
-            var oppositeHeading = (heading + 180) % 360;
-
-            var headingRange = Enumerable.Range(heading - sensitivity, sensitivity * 2 + 1).Select(x => x % 360);
-            var oppositeHeadingRange = Enumerable.Range(oppositeHeading - sensitivity, sensitivity * 2 + 1).Select(x => x % 360);
-            
-            if (headingRange.Contains(radial))
-                return AppStateVorState.OUTBOUND;
-
-            if (oppositeHeadingRange.Contains(radial))
-                return AppStateVorState.INBOUND;
-
-            return AppStateVorState.CROSSING;
-        }
+        
 
         internal static AppState FromEmptyAppState()
         {
@@ -108,7 +93,9 @@ namespace FSXVORSim.AppState
                 VOROmniBearingSelector = 0,
                 DMEDistance = 0,
                 DMESpeed = 0,
-                MagneticHeading = 0
+                MagneticHeading = 0,
+                Sensitivity = 5,
+                VorState = AppStateVorState.FromHeadingAndRadial(0,0)
             };
         }
     }

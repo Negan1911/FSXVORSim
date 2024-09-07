@@ -54,11 +54,11 @@ namespace FSXVORSim.FlightSimulatorBridge
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV HAS NAV:1", "bool", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV TOFROM:1", "enum", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV ACTIVE FREQUENCY:1", "MHz", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV RADIAL:1", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV OBS:1", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV RADIAL:1", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV OBS:1", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV DME:1", "nautical miles", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "NAV DMESPEED:1", "knots", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
-                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "PLANE HEADING DEGREES MAGNETIC", "degrees", SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                simconnect.AddToDataDefinition(DEFINITIONS.SimulatorAircraftData, "PLANE HEADING DEGREES MAGNETIC", "degrees", SIMCONNECT_DATATYPE.INT32, 0.0f, SimConnect.SIMCONNECT_UNUSED);
 
                 /** Register the struct */
                 simconnect.RegisterDataDefineStruct<SimulatorAircraftData>(DEFINITIONS.SimulatorAircraftData);
@@ -164,6 +164,18 @@ namespace FSXVORSim.FlightSimulatorBridge
             {
                 case DEFINITIONS.SimulatorAircraftData:
                     SimulatorAircraftData d = (SimulatorAircraftData)data.dwData[0];
+
+                    /* Sometimes, the good ol' flight simulator returns the radial in negative, this is the fix
+                     * reference: https://www.fsdeveloper.com/wiki/index.php/XML:_VOR_Radial_Sign_Rules
+                     */
+                    if (d.VORRadial < 0)
+                        d.VORRadial = 360 + d.VORRadial;
+
+                    /* Fix uncertainty if is going to show 0 or 360, so we make our range 0-359 */
+                    d.VORRadial = d.VORRadial % 360;
+                    d.VOROmniBearingSelector = d.VOROmniBearingSelector % 360;
+                    d.MagneticHeading = d.MagneticHeading % 360;
+
                     AircraftDataUpdate?.Invoke(this, d);
 
                     break;
