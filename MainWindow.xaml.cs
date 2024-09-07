@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Globalization;
 using System.Speech.Synthesis;
+using FSXVORSim.Resources;
 
 namespace FSXVORSim
 {
@@ -64,7 +65,7 @@ namespace FSXVORSim
 
             /* Update UI Fields */
             vorFreq.Text = String.Format("{0:0.00} MHz", AppState.VORFreqMhz);
-            vorSignal.Text = AppState.VORSignal.ToString();
+            vorSignal.Text = AppState.VORSignal ? Strings.Yes : Strings.No;
             vorRadial.Text = AppState.VORRadial.ToString();
             vorOBS.Text = AppState.VOROmniBearingSelector.ToString();
             vorFlag.Text = AppState.VORFlag.ToString();

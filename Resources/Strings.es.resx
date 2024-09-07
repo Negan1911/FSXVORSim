@@ -118,66 +118,64 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="StartBtn" xml:space="preserve">
-    <value>Start</value>
-    <comment>Start button</comment>
+    <value>Iniciar</value>
   </data>
   <data name="StopBtn" xml:space="preserve">
-    <value>Stop</value>
-    <comment>Stop button</comment>
+    <value>Detener</value>
   </data>
   <data name="SettingsTabLabel" xml:space="preserve">
-    <value>Settings</value>
+    <value>Configuración</value>
   </data>
   <data name="ATCVoiceToggleLabel" xml:space="preserve">
-    <value>ATC Style Voice (Ctrl + U to repeat)</value>
+    <value>Voz Estilo ATS (Ctrl + U para repetir)</value>
   </data>
   <data name="HeadingOffsetSliderLabel" xml:space="preserve">
-    <value>Heading offset (leniency to completion)</value>
+    <value>Sensibilidad de curso</value>
   </data>
   <data name="InstrumentationTabLabel" xml:space="preserve">
-    <value>Instrumentation</value>
+    <value>Instrumentos</value>
   </data>
   <data name="VorFreqLabel" xml:space="preserve">
-    <value>VOR Freq.</value>
+    <value>Freq. VOR</value>
   </data>
   <data name="VorSignalLabel" xml:space="preserve">
-    <value>VOR Signal</value>
+    <value>Señal Vor</value>
   </data>
   <data name="VorRadialLabel" xml:space="preserve">
-    <value>VOR Radial</value>
+    <value>Radial VOR</value>
   </data>
   <data name="VorObsLabel" xml:space="preserve">
-    <value>VOR OBS</value>
+    <value>OBS VOR</value>
   </data>
   <data name="VorFlagLabel" xml:space="preserve">
-    <value>VOR Flag</value>
+    <value>Bandera VOR</value>
   </data>
   <data name="ActualHeadingLabel" xml:space="preserve">
-    <value>Actual Heading</value>
+    <value>Rumbo Actual</value>
   </data>
   <data name="DMEDistanceLabel" xml:space="preserve">
-    <value>DME Distance</value>
+    <value>Dist. DME</value>
   </data>
   <data name="DMESpeedLabel" xml:space="preserve">
-    <value>DME Speed</value>
+    <value>Vel. DME</value>
   </data>
   <data name="InstructionActualTabLabel" xml:space="preserve">
-    <value>Instruction / Actual</value>
+    <value>Instrucción / Actual</value>
   </data>
   <data name="ACTInstructionLabel" xml:space="preserve">
-    <value>ATC Instruction</value>
+    <value>Instrucción ATS</value>
   </data>
   <data name="ActualPositionLabel" xml:space="preserve">
-    <value>Actual Position</value>
+    <value>Posición Actual</value>
   </data>
   <data name="DebugLogTabLabel" xml:space="preserve">
-    <value>Debug Log</value>
+    <value>Logs</value>
   </data>
   <data name="WindowTitle" xml:space="preserve">
-    <value>FSX VOR Simulator</value>
+    <value>Simulador VOR para FSX</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Si</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>

@@ -4,27 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FSXVORSim"
-        xmlns:SimulatorData="clr-namespace:FSXVORSim.SimulatorData" x:Class="FSXVORSim.MainWindow"
+        xmlns:SimulatorData="clr-namespace:FSXVORSim.SimulatorData"
+        xmlns:resx="clr-namespace:FSXVORSim.Resources"
+        x:Class="FSXVORSim.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="670" Width="300" x:Name="mainwindow">
+        Title="{x:Static resx:Strings.WindowTitle}" Height="670" Width="300" x:Name="mainwindow">
     <StackPanel Margin="5,5,5,5">
         <Label Content="Running box"/>
         <UniformGrid Rows="1" Columns="2">
-            <Button Margin="0,0,2,0" x:Name="startBtn" Click="Start_Click">Start</Button>
-            <Button Margin="2,0,0,0" x:Name="stopBtn" IsEnabled="False" Click="Stop_Click">Stop</Button>
+            <Button Margin="0,0,2,0" x:Name="startBtn" Click="Start_Click" Content="{x:Static resx:Strings.StartBtn}" />
+            <Button Margin="2,0,0,0" x:Name="stopBtn" IsEnabled="False" Click="Stop_Click" Content="{x:Static resx:Strings.StopBtn}" />
         </UniformGrid>
         <GroupBox>
             <GroupBox.Header>
-                <Label Content="Settings"/>
+                <Label Content="{x:Static resx:Strings.SettingsTabLabel}"/>
             </GroupBox.Header>
             <StackPanel>
                 <StackPanel>
                     <CheckBox VerticalAlignment="Center">
-                        <TextBlock Text="ATC Style voice (Ctrl + U to repeat)" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static resx:Strings.ATCVoiceToggleLabel}" VerticalAlignment="Center" />
                     </CheckBox>
                 </StackPanel>
                 <StackPanel>
-                    <Label Content="Heading offset (leniency to completion)"/>
+                    <Label Content="{x:Static resx:Strings.HeadingOffsetSliderLabel}"/>
                     <Grid>
                         <Label Width="25" HorizontalAlignment="Left">0</Label>
                         <Slider
@@ -51,61 +53,61 @@
         </GroupBox>
         <GroupBox>
             <GroupBox.Header>
-                <Label Content="Instrumentation"/>
+                <Label Content="{x:Static resx:Strings.InstrumentationTabLabel}"/>
             </GroupBox.Header>
             <UniformGrid Rows="4" Columns="2">
                 <StackPanel Margin="0,0,2,0">
-                    <Label Content="VOR Freq."/>
+                    <Label Content="{x:Static resx:Strings.VorFreqLabel}"/>
                     <TextBox IsEnabled="False" x:Name="vorFreq"></TextBox>
                 </StackPanel>
                 <StackPanel Margin="2,0,0,0">
-                    <Label Content="VOR Signal"/>
+                    <Label Content="{x:Static resx:Strings.VorSignalLabel}"/>
                     <TextBox IsEnabled="False" x:Name="vorSignal" />
                 </StackPanel>
                 <StackPanel Margin="0,0,2,0">
-                    <Label Content="VOR Radial"/>
+                    <Label Content="{x:Static resx:Strings.VorRadialLabel}"/>
                     <TextBox IsEnabled="False" x:Name="vorRadial" />
                 </StackPanel>
                 <StackPanel Margin="2,0,0,0">
-                    <Label Content="VOR OBS"/>
+                    <Label Content="{x:Static resx:Strings.VorObsLabel}"/>
                     <TextBox IsEnabled="False" x:Name="vorOBS"/>
                 </StackPanel>
                 <StackPanel Margin="0,0,2,0">
-                    <Label Content="VOR Flag"/>
+                    <Label Content="{x:Static resx:Strings.VorFlagLabel}"/>
                     <TextBox IsEnabled="False" x:Name="vorFlag"/>
                 </StackPanel>
                 <StackPanel Margin="2,0,0,0">
-                    <Label Content="Actual Heading"/>
+                    <Label Content="{x:Static resx:Strings.ActualHeadingLabel}"/>
                     <TextBox IsEnabled="False" x:Name="magneticHeading"/>
                 </StackPanel>
                 <StackPanel Margin="0,0,2,0">
-                    <Label Content="DME Distance"/>
+                    <Label Content="{x:Static resx:Strings.DMEDistanceLabel}"/>
                     <TextBox IsEnabled="False" x:Name="dmeDistance"/>
                 </StackPanel>
                 <StackPanel Margin="2,0,0,0">
-                    <Label Content="DME Speed"/>
+                    <Label Content="{x:Static resx:Strings.DMESpeedLabel}"/>
                     <TextBox IsEnabled="False" x:Name="dmeSpeed"/>
                 </StackPanel>
             </UniformGrid>
         </GroupBox>
         <GroupBox>
             <GroupBox.Header>
-                <Label Content="Instruction / Actual"/>
+                <Label Content="{x:Static resx:Strings.InstructionActualTabLabel}"/>
             </GroupBox.Header>
             <UniformGrid Rows="2" Columns="1">
                 <StackPanel>
-                    <Label Content="ATC Instruction"/>
+                    <Label Content="{x:Static resx:Strings.ACTInstructionLabel}"/>
                     <TextBox x:Name="atcInstruction" IsEnabled="False"/>
                 </StackPanel>
                 <StackPanel>
-                    <Label Content="Actual Status"/>
+                    <Label Content="{x:Static resx:Strings.ActualPositionLabel}"/>
                     <TextBox x:Name="actStatus" IsEnabled="False"/>
                 </StackPanel>
             </UniformGrid>
         </GroupBox>
         <GroupBox>
             <GroupBox.Header>
-                <Label Content="Debug log"/>
+                <Label Content="{x:Static resx:Strings.DebugLogTabLabel}"/>
             </GroupBox.Header>
             <ListBox x:Name="debugBox" Height="113" VerticalAlignment="Center" Margin="0,0,0,0"/>
         </GroupBox>

@@ -22,7 +22,7 @@ namespace FSXVORSim.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    public class Strings {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace FSXVORSim.Resources {
         ///   Devuelve la instancia de ResourceManager almacenada en caché utilizada por esta clase.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FSXVORSim.Resources.Strings", typeof(Strings).Assembly);
@@ -51,7 +51,7 @@ namespace FSXVORSim.Resources {
         ///   búsquedas de recursos mediante esta clase de recurso fuertemente tipado.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,36 +61,108 @@ namespace FSXVORSim.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a ATC Instruction.
+        /// </summary>
+        public static string ACTInstructionLabel {
+            get {
+                return ResourceManager.GetString("ACTInstructionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actual Heading.
+        /// </summary>
+        public static string ActualHeadingLabel {
+            get {
+                return ResourceManager.GetString("ActualHeadingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Actual Position.
+        /// </summary>
+        public static string ActualPositionLabel {
+            get {
+                return ResourceManager.GetString("ActualPositionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a ATC Style Voice (Ctrl + U to repeat).
         /// </summary>
-        internal static string ATCVoiceToggleLabel {
+        public static string ATCVoiceToggleLabel {
             get {
                 return ResourceManager.GetString("ATCVoiceToggleLabel", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Debug Log.
+        /// </summary>
+        public static string DebugLogTabLabel {
+            get {
+                return ResourceManager.GetString("DebugLogTabLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a DME Distance.
+        /// </summary>
+        public static string DMEDistanceLabel {
+            get {
+                return ResourceManager.GetString("DMEDistanceLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a DME Speed.
+        /// </summary>
+        public static string DMESpeedLabel {
+            get {
+                return ResourceManager.GetString("DMESpeedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Heading offset (leniency to completion).
         /// </summary>
-        internal static string HeadingOffsetSliderLabel {
+        public static string HeadingOffsetSliderLabel {
             get {
                 return ResourceManager.GetString("HeadingOffsetSliderLabel", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Instruction / Actual.
+        /// </summary>
+        public static string InstructionActualTabLabel {
+            get {
+                return ResourceManager.GetString("InstructionActualTabLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Instrumentation.
         /// </summary>
-        internal static string InstrumentationTabLabel {
+        public static string InstrumentationTabLabel {
             get {
                 return ResourceManager.GetString("InstrumentationTabLabel", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Settings.
         /// </summary>
-        internal static string SettingsTabLabel {
+        public static string SettingsTabLabel {
             get {
                 return ResourceManager.GetString("SettingsTabLabel", resourceCulture);
             }
@@ -99,7 +171,7 @@ namespace FSXVORSim.Resources {
         /// <summary>
         ///   Busca una cadena traducida similar a Start.
         /// </summary>
-        internal static string StartBtn {
+        public static string StartBtn {
             get {
                 return ResourceManager.GetString("StartBtn", resourceCulture);
             }
@@ -108,25 +180,43 @@ namespace FSXVORSim.Resources {
         /// <summary>
         ///   Busca una cadena traducida similar a Stop.
         /// </summary>
-        internal static string StopBtn {
+        public static string StopBtn {
             get {
                 return ResourceManager.GetString("StopBtn", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a VOR Flag.
+        /// </summary>
+        public static string VorFlagLabel {
+            get {
+                return ResourceManager.GetString("VorFlagLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a VOR Freq..
         /// </summary>
-        internal static string VorFreqLabel {
+        public static string VorFreqLabel {
             get {
                 return ResourceManager.GetString("VorFreqLabel", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a VOR OBS.
+        /// </summary>
+        public static string VorObsLabel {
+            get {
+                return ResourceManager.GetString("VorObsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a VOR Radial.
         /// </summary>
-        internal static string VorRadialLabel {
+        public static string VorRadialLabel {
             get {
                 return ResourceManager.GetString("VorRadialLabel", resourceCulture);
             }
@@ -135,9 +225,27 @@ namespace FSXVORSim.Resources {
         /// <summary>
         ///   Busca una cadena traducida similar a VOR Signal.
         /// </summary>
-        internal static string VorSignalLabel {
+        public static string VorSignalLabel {
             get {
                 return ResourceManager.GetString("VorSignalLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a FSX VOR Simulator.
+        /// </summary>
+        public static string WindowTitle {
+            get {
+                return ResourceManager.GetString("WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }
