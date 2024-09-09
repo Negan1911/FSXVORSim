@@ -13,13 +13,13 @@ namespace FSXVORSim.AppState
 
     internal class AppStateVorState
     {
-        AppStateVorStatePosition Position { get; set; }
+        public AppStateVorStatePosition Position { get; private set; }
 
-        int Radial { get; set; }
+        public int Radial { get; private set; }
 
         public bool Equals(AppStateVorState state)
         {
-            return state.Position == this.Position && state.Radial == this.Radial;
+            return state.Position == Position && state.Radial == Radial;
         }
 
         public static AppStateVorState FromHeadingAndRadial(int heading, int radial, int sensitivity = 5)
@@ -48,11 +48,11 @@ namespace FSXVORSim.AppState
             return new AppStateVorState { Radial = radial, Position = position };
         }
 
-        public override string ToString() => this.Position switch
+        public override string ToString() => Position switch
         {
-            AppStateVorStatePosition.INBOUND => String.Format(Strings.VorStateInboundStr, this.Radial),
-            AppStateVorStatePosition.OUTBOUND => String.Format(Strings.VorStateOutboundStr, this.Radial),
-            AppStateVorStatePosition.CROSSING => String.Format(Strings.VorStateCrossingStr, this.Radial),
+            AppStateVorStatePosition.INBOUND => String.Format(Strings.VorStateInboundStr, Radial),
+            AppStateVorStatePosition.OUTBOUND => String.Format(Strings.VorStateOutboundStr, Radial),
+            AppStateVorStatePosition.CROSSING => String.Format(Strings.VorStateCrossingStr, Radial),
             _ => throw new ArgumentOutOfRangeException("AppStateVorStatePosition Invalid value")
         };
     }

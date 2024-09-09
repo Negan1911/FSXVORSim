@@ -3,9 +3,10 @@ using FSXVORSim.SimulatorData;
 using System;
 using System.Windows;
 using System.Windows.Interop;
-using System.Globalization;
-using System.Speech.Synthesis;
 using FSXVORSim.Resources;
+using System.Globalization;
+using System.Threading;
+using FSXVORSim.AppState;
 
 namespace FSXVORSim
 {
@@ -19,8 +20,9 @@ namespace FSXVORSim
         private FlightSimulatorBridge.FlightSimulatorBridge simulatorBridge;
         private HwndSource _hwndSource;
         
-        internal AppState.AppState AppState { get; set; } = FSXVORSim.AppState.AppState.FromEmptyAppState();
-        internal AppState.AppStateExcercise AppStateExcercise = new AppState.AppStateExcercise();
+        private AppState.AppState appState = AppState.AppState.FromEmptyAppState();
+        private AppStateExcercise appStateExcercise = new AppStateExcercise();
+        private readonly AppStateATCVoice atcVoice = new AppStateATCVoice();
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
@@ -40,43 +42,43 @@ namespace FSXVORSim
 
         private void SimulatorBridge_AircraftDataUpdate(object sender, SimulatorAircraftData data)
         {
-            AppState = FSXVORSim.AppState.AppState.FromStateAndAircraftKeypair(AppState.AsSimulatorStateData(), data, (int)sensitivity.Value);
+            appState = AppState.AppState.FromStateAndAircraftKeypair(appState.AsSimulatorStateData(), data, (int)sensitivity.Value);
 
-            if (AppStateExcercise?.Equals(AppState.VorState) ?? false)
+            if (appStateExcercise?.Equals(appState.VorState) ?? false)
             {
+                debugCtl.Debug(String.Format(Strings.CompletedExLog, appStateExcercise.ToString()));
                 //TODO: Speak...
-                AppStateExcercise = new AppState.AppStateExcercise();
+                appStateExcercise = new AppStateExcercise();
             }
 
-            updateUI();
+            UpdateUI();
         }
 
         private void SimulatorBridge_StatusUpdate(object sender, SimulatorStateData state)
         {
-            AppState = FSXVORSim.AppState.AppState.FromStateAndAircraftKeypair(state, AppState.AsSimulatorAircraftData(), (int)sensitivity.Value);
-            updateUI();
+            appState = AppState.AppState.FromStateAndAircraftKeypair(state, appState.AsSimulatorAircraftData(), (int)sensitivity.Value);
+            UpdateUI();
         }
 
-        private void updateUI()
+        private void UpdateUI()
         {
             /* Update UI Buttons */
-            startBtn.IsEnabled = AppState.Status != SimulatorStateDataStatus.RUNNING;
-            stopBtn.IsEnabled = AppState.Status == SimulatorStateDataStatus.RUNNING;
+            startBtn.IsEnabled = appState.Status != SimulatorStateDataStatus.RUNNING;
+            stopBtn.IsEnabled = appState.Status == SimulatorStateDataStatus.RUNNING;
 
             /* Update UI Fields */
-            vorFreq.Text = String.Format("{0:0.00} MHz", AppState.VORFreqMhz);
-            vorSignal.Text = AppState.VORSignal ? Strings.Yes : Strings.No;
-            vorRadial.Text = AppState.VORRadial.ToString();
-            vorOBS.Text = AppState.VOROmniBearingSelector.ToString();
-            vorFlag.Text = AppState.VORFlag.ToString();
-            magneticHeading.Text = AppState.MagneticHeading.ToString();
-            dmeDistance.Text = String.Format("{0:0.0} NM", Math.Round(AppState.DMEDistance, 1));
-            dmeSpeed.Text = String.Format("{0:0} Kt", Math.Round(AppState.DMESpeed, 0));
+            vorFreq.Text = String.Format("{0:0.00} MHz", appState.VORFreqMhz);
+            vorSignal.Text = appState.VORSignal ? Strings.Yes : Strings.No;
+            vorRadial.Text = appState.VORRadial.ToString();
+            vorOBS.Text = appState.VOROmniBearingSelector.ToString();
+            vorFlag.Text = appState.VORFlag.ToString();
+            magneticHeading.Text = appState.MagneticHeading.ToString();
+            dmeDistance.Text = String.Format("{0:0.0} NM", Math.Round(appState.DMEDistance, 1));
+            dmeSpeed.Text = String.Format("{0:0} Kt", Math.Round(appState.DMESpeed, 0));
 
-            /* TODO: Update UI VOR State */
-            atcInstruction.Text = AppStateExcercise.ToString();
-            actStatus.Text = AppState.VorState.ToString();
-            
+            /* Update UI VOR State */
+            atcInstruction.Text = appStateExcercise.ToString();
+            actStatus.Text = appState.VorState.ToString();
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -87,6 +89,7 @@ namespace FSXVORSim
 
         public MainWindow()
         {
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US");
             InitializeComponent();
 
             Loaded += MainWindow_Loaded;
@@ -97,21 +100,22 @@ namespace FSXVORSim
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            atcVoice.SpeakInstruction(Thread.CurrentThread.CurrentUICulture);
             simulatorBridge = new FlightSimulatorBridge.FlightSimulatorBridge(debugCtl, handle);
-            updateUI();
+            UpdateUI();
         }
 
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
             simulatorBridge?.Dispose();
             simulatorBridge = null;
-            AppState = FSXVORSim.AppState.AppState.FromEmptyAppState();
-            updateUI();
+            appState = AppState.AppState.FromEmptyAppState();
+            UpdateUI();
         }
 
         private void Sensitivity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            AppState.Sensitivity = (int)e.NewValue;
+            appState.Sensitivity = (int)e.NewValue;
         }
     }
 }

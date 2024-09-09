@@ -1,6 +1,5 @@
 ﻿using FSXVORSim.SimulatorData;
 using System;
-using System.Linq;
 
 namespace FSXVORSim.AppState
 {
@@ -35,8 +34,8 @@ namespace FSXVORSim.AppState
         {
             return new SimulatorStateData
             {
-                Status = this.Status,
-                Error = this.Error
+                Status = Status,
+                Error = Error
             };
         }
 
@@ -44,14 +43,14 @@ namespace FSXVORSim.AppState
         {
             return new SimulatorAircraftData
             {
-                VORSignal = this.VORSignal,
-                VORFlag = this.VORFlag,
-                VORFreqMhz = this.VORFreqMhz,
-                VORRadial = this.VORRadial,
-                VOROmniBearingSelector = this.VOROmniBearingSelector,
-                DMEDistance = this.DMEDistance,
-                DMESpeed = this.DMESpeed,
-                MagneticHeading = this.MagneticHeading
+                VORSignal = VORSignal,
+                VORFlag = VORFlag,
+                VORFreqMhz = VORFreqMhz,
+                VORRadial = VORRadial,
+                VOROmniBearingSelector = VOROmniBearingSelector,
+                DMEDistance = DMEDistance,
+                DMESpeed = DMESpeed,
+                MagneticHeading = MagneticHeading
             };
         }
 

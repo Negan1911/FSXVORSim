@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FSXVORSim.Resources;
+using System;
 
 namespace FSXVORSim.AppState
 {
@@ -12,11 +9,11 @@ namespace FSXVORSim.AppState
 
         private static readonly AppStateVorStatePosition[] exercisesStates = { AppStateVorStatePosition.INBOUND, AppStateVorStatePosition.OUTBOUND };
 
-        private AppStateVorState currentExerciseVorState = AppStateVorState.FromPositionAndRadial(AppStateVorStatePosition.OUTBOUND, 0);
+        private readonly AppStateVorState currentExerciseVorState = AppStateVorState.FromPositionAndRadial(AppStateVorStatePosition.OUTBOUND, 0);
 
         public AppStateExcercise()
         {
-            this.currentExerciseVorState = AppStateVorState.FromPositionAndRadial(
+            currentExerciseVorState = AppStateVorState.FromPositionAndRadial(
                 exercisesStates[new Random().Next(0, exercisesStates.Length)],
                 exercisesRadials[new Random().Next(0, exercisesRadials.Length)]
             );
@@ -24,22 +21,30 @@ namespace FSXVORSim.AppState
 
         public bool Equals(AppStateExcercise state)
         {
-            return this.currentExerciseVorState.Equals(state.currentExerciseVorState);
+            return currentExerciseVorState.Equals(state.currentExerciseVorState);
         }
 
         public bool Equals(AppState state)
         {
-            return this.currentExerciseVorState.Equals(state.VorState);
+            return currentExerciseVorState.Equals(state.VorState);
         }
 
         public bool Equals(AppStateVorState state)
         {
-            return this.currentExerciseVorState.Equals(state);
+            return currentExerciseVorState.Equals(state);
         }
 
         public override string ToString()
         {
             return currentExerciseVorState.ToString();
         }
+
+        public string ToExerciseString() => currentExerciseVorState.Position switch
+        {
+            AppStateVorStatePosition.INBOUND => String.Format(Strings.ExerciseInboundStr, currentExerciseVorState.Radial.ToString().Split(' ')),
+            AppStateVorStatePosition.OUTBOUND => String.Format(Strings.ExerciseOutboundStr, currentExerciseVorState.Radial.ToString().Split(' ')),
+            _ => throw new ArgumentOutOfRangeException("AppStateVorStatePosition Invalid value")
+        };
     }
 }
+ 

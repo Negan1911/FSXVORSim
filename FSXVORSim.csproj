@@ -80,6 +80,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppState\AppState.cs" />
+    <Compile Include="AppState\AppStateATCVoice.cs" />
     <Compile Include="AppState\AppStateExcercise.cs" />
     <Compile Include="AppState\AppStateVorState.cs" />
     <Compile Include="DebugCtl\DebugCtlUIBox.cs" />
@@ -148,6 +149,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
