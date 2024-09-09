@@ -97,6 +97,15 @@ namespace FSXVORSim.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Completed Exercise: {0}.
+        /// </summary>
+        public static string CompletedExLog {
+            get {
+                return ResourceManager.GetString("CompletedExLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Debug Log.
         /// </summary>
         public static string DebugLogTabLabel {
@@ -120,6 +129,24 @@ namespace FSXVORSim.Resources {
         public static string DMESpeedLabel {
             get {
                 return ResourceManager.GetString("DMESpeedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inbound via radial {0}.
+        /// </summary>
+        public static string ExerciseInboundStr {
+            get {
+                return ResourceManager.GetString("ExerciseInboundStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Outbound via radial {0}.
+        /// </summary>
+        public static string ExerciseOutboundStr {
+            get {
+                return ResourceManager.GetString("ExerciseOutboundStr", resourceCulture);
             }
         }
         

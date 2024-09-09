@@ -189,4 +189,13 @@
   <data name="VorStateOutboundStr" xml:space="preserve">
     <value>Alejando radial {0}</value>
   </data>
+  <data name="CompletedExLog" xml:space="preserve">
+    <value>Ejercicio Completado: {0}</value>
+  </data>
+  <data name="ExerciseInboundStr" xml:space="preserve">
+    <value>Ingrese via radial {0}</value>
+  </data>
+  <data name="ExerciseOutboundStr" xml:space="preserve">
+    <value>Aleje via radial {0}</value>
+  </data>
 </root>
