@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FSXVORSim.Resources;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FSXVORSim.AppState
 {
@@ -50,9 +48,12 @@ namespace FSXVORSim.AppState
             return new AppStateVorState { Radial = radial, Position = position };
         }
 
-        public override string ToString()
+        public override string ToString() => this.Position switch
         {
-            return $"{Position} {Radial}";
-        }
+            AppStateVorStatePosition.INBOUND => String.Format(Strings.VorStateInboundStr, this.Radial),
+            AppStateVorStatePosition.OUTBOUND => String.Format(Strings.VorStateOutboundStr, this.Radial),
+            AppStateVorStatePosition.CROSSING => String.Format(Strings.VorStateCrossingStr, this.Radial),
+            _ => throw new ArgumentOutOfRangeException("AppStateVorStatePosition Invalid value")
+        };
     }
 }

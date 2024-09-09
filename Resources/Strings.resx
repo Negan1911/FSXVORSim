@@ -182,4 +182,13 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="VorStateCrossingStr" xml:space="preserve">
+    <value>Crossing radial {0}</value>
+  </data>
+  <data name="VorStateInboundStr" xml:space="preserve">
+    <value>Inbound radial {0}</value>
+  </data>
+  <data name="VorStateOutboundStr" xml:space="preserve">
+    <value>Outbound radial {0} </value>
+  </data>
 </root>

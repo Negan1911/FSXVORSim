@@ -232,6 +232,33 @@ namespace FSXVORSim.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Crossing radial {0}.
+        /// </summary>
+        public static string VorStateCrossingStr {
+            get {
+                return ResourceManager.GetString("VorStateCrossingStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Inbound radial {0}.
+        /// </summary>
+        public static string VorStateInboundStr {
+            get {
+                return ResourceManager.GetString("VorStateInboundStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Outbound radial {0} .
+        /// </summary>
+        public static string VorStateOutboundStr {
+            get {
+                return ResourceManager.GetString("VorStateOutboundStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a FSX VOR Simulator.
         /// </summary>
         public static string WindowTitle {
