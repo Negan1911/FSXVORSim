@@ -7,11 +7,12 @@ using FSXVORSim.Resources;
 using System.Globalization;
 using System.Threading;
 using FSXVORSim.AppState;
+using System.Windows.Media;
 
 namespace FSXVORSim
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// App logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -20,8 +21,8 @@ namespace FSXVORSim
         private FlightSimulatorBridge.FlightSimulatorBridge simulatorBridge;
         private HwndSource _hwndSource;
         
-        private AppState.AppState appState = AppState.AppState.FromEmptyAppState();
-        private AppStateExcercise appStateExcercise = new AppStateExcercise();
+        internal AppState.AppState appState = AppState.AppState.FromEmptyAppState();
+        private AppStateExcercise appStateExcercise;
         private readonly AppStateATCVoice atcVoice = new AppStateATCVoice();
 
         private void MainWindow_Closed(object sender, EventArgs e)
@@ -44,11 +45,20 @@ namespace FSXVORSim
         {
             appState = AppState.AppState.FromStateAndAircraftKeypair(appState.AsSimulatorStateData(), data, (int)sensitivity.Value);
 
+            if (appStateExcercise == null && appState.VORSignal)
+            {
+                appStateExcercise = new AppStateExcercise();
+                if (this.voiceEnabled?.IsChecked ?? false)
+                    atcVoice.SpeakInstruction(Thread.CurrentThread.CurrentUICulture, appStateExcercise);
+            }
+
             if (appStateExcercise?.Equals(appState.VorState) ?? false)
             {
                 debugCtl.Debug(String.Format(Strings.CompletedExLog, appStateExcercise.ToString()));
-                //TODO: Speak...
                 appStateExcercise = new AppStateExcercise();
+
+                if (this.voiceEnabled?.IsChecked ?? false)
+                    atcVoice.SpeakInstruction(Thread.CurrentThread.CurrentUICulture, appStateExcercise);
             }
 
             UpdateUI();
@@ -77,8 +87,18 @@ namespace FSXVORSim
             dmeSpeed.Text = String.Format("{0:0} Kt", Math.Round(appState.DMESpeed, 0));
 
             /* Update UI VOR State */
-            atcInstruction.Text = appStateExcercise.ToString();
             actStatus.Text = appState.VorState.ToString();
+
+            if (appStateExcercise != null)
+            {
+                atcInstruction.Foreground = Brushes.Black; 
+                atcInstruction.Text = appStateExcercise.ToExerciseString();
+            }
+            else
+            { 
+                atcInstruction.Foreground = Brushes.Red;
+                atcInstruction.Text = Strings.ExerciseMissingVorSignal;
+            }
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -89,8 +109,9 @@ namespace FSXVORSim
 
         public MainWindow()
         {
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US");
             InitializeComponent();
+            /** Load default values */
+            voiceEnabled.IsChecked = true;
 
             Loaded += MainWindow_Loaded;
             Closed += MainWindow_Closed;
@@ -100,7 +121,6 @@ namespace FSXVORSim
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            atcVoice.SpeakInstruction(Thread.CurrentThread.CurrentUICulture);
             simulatorBridge = new FlightSimulatorBridge.FlightSimulatorBridge(debugCtl, handle);
             UpdateUI();
         }
@@ -109,6 +129,7 @@ namespace FSXVORSim
         {
             simulatorBridge?.Dispose();
             simulatorBridge = null;
+            appStateExcercise = null;
             appState = AppState.AppState.FromEmptyAppState();
             UpdateUI();
         }

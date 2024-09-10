@@ -1,5 +1,6 @@
 ﻿using FSXVORSim.Resources;
 using System;
+using System.Linq;
 
 namespace FSXVORSim.AppState
 {
@@ -39,12 +40,17 @@ namespace FSXVORSim.AppState
             return currentExerciseVorState.ToString();
         }
 
-        public string ToExerciseString() => currentExerciseVorState.Position switch
+        public string ToExerciseString(bool voice = false)
         {
-            AppStateVorStatePosition.INBOUND => String.Format(Strings.ExerciseInboundStr, currentExerciseVorState.Radial.ToString().Split(' ')),
-            AppStateVorStatePosition.OUTBOUND => String.Format(Strings.ExerciseOutboundStr, currentExerciseVorState.Radial.ToString().Split(' ')),
-            _ => throw new ArgumentOutOfRangeException("AppStateVorStatePosition Invalid value")
-        };
+            String radialTxt = voice ? String.Join(" ", currentExerciseVorState.Radial.ToString().ToCharArray()) : currentExerciseVorState.Radial.ToString();
+            return currentExerciseVorState.Position switch
+            {
+                AppStateVorStatePosition.INBOUND => String.Format(Strings.ExerciseInboundStr, radialTxt),
+                AppStateVorStatePosition.OUTBOUND => String.Format(Strings.ExerciseOutboundStr, radialTxt),
+                AppStateVorStatePosition.CROSSING => throw new ArgumentOutOfRangeException("AppStateVorStatePosition Invalid crossing value"),
+                _ => throw new ArgumentOutOfRangeException("AppStateVorStatePosition Invalid value")
+            };
+        }
     }
 }
  

@@ -198,4 +198,7 @@
   <data name="ExerciseOutboundStr" xml:space="preserve">
     <value>Aleje via radial {0}</value>
   </data>
+  <data name="ExerciseMissingVorSignal" xml:space="preserve">
+    <value>El ejercicio no inició por falta de señal VOR.</value>
+  </data>
 </root>

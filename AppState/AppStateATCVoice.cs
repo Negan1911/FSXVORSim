@@ -7,16 +7,16 @@ namespace FSXVORSim.AppState
 {
     internal class AppStateATCVoice
     {
-        private SpeechSynthesizer synthesizer = new SpeechSynthesizer();
+        private readonly SpeechSynthesizer synthesizer = new SpeechSynthesizer();
 
-        public void SpeakInstruction(CultureInfo culture)
+        public void SpeakInstruction(CultureInfo culture, AppStateExcercise excercise)
         {
             var builder = new PromptBuilder();
             builder.StartVoice(culture);
-            builder.AppendText("Prueba prueba 2 8 0");
+            builder.AppendText(excercise.ToExerciseString(true));
             builder.EndVoice();
 
-            synthesizer.Speak(builder);
+            synthesizer.SpeakAsync(builder);
         }
     }
 }

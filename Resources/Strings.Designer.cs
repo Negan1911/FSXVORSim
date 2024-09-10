@@ -142,6 +142,15 @@ namespace FSXVORSim.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Exercise not started because there&apos;s no VOR signal.
+        /// </summary>
+        public static string ExerciseMissingVorSignal {
+            get {
+                return ResourceManager.GetString("ExerciseMissingVorSignal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Outbound via radial {0}.
         /// </summary>
         public static string ExerciseOutboundStr {

@@ -200,4 +200,7 @@
   <data name="ExerciseOutboundStr" xml:space="preserve">
     <value>Outbound via radial {0}</value>
   </data>
+  <data name="ExerciseMissingVorSignal" xml:space="preserve">
+    <value>Exercise not started because there's no VOR signal</value>
+  </data>
 </root>

@@ -21,7 +21,7 @@
             </GroupBox.Header>
             <StackPanel>
                 <StackPanel>
-                    <CheckBox VerticalAlignment="Center">
+                    <CheckBox VerticalAlignment="Center" x:Name="voiceEnabled">
                         <TextBlock Text="{x:Static resx:Strings.ATCVoiceToggleLabel}" VerticalAlignment="Center" />
                     </CheckBox>
                 </StackPanel>
