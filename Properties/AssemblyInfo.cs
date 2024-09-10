@@ -7,12 +7,12 @@ using System.Windows;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("FSXVORSim")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("VOR SIM for FSX")]
+[assembly: AssemblyDescription("VOR Simulator for Flight Simulator X")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FSXVORSim")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyProduct("VOR SIM for FSX")]
+[assembly: AssemblyCopyright("Nahuel Veron ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
